@@ -3,6 +3,8 @@ FROM ubuntu:14.04
 # Update packages
 RUN apt-get update -y
 
+RUN mkdir /var/log/supervisor
+
 # Install Python Setuptools
 RUN apt-get install -y python python-pip nginx gunicorn supervisor
 
