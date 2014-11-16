@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Home Monitor</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+<body>
+    <h1>Home Monitor</h1>
+    
+    {% for key, items in graphs.items() %}
+        <h2>{{ key }}</h2>
+        
+        <ol>
+        {% for item in items %}
+            <li>{{ item.reading }} / {{ item.date_created }}</li>
+        {% endfor %}
+        </ol>
+    {% endfor %}
+    
+</body>
+</html>
