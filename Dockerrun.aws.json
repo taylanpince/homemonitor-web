@@ -2,8 +2,8 @@
   "AWSEBDockerrunVersion": "1",
   "Volumes": [
     {
-      "ContainerDirectory": "/src",
-      "HostDirectory": "/src"
+      "ContainerDirectory": "/var/app",
+      "HostDirectory": "/var/app"
     }
   ],
   "Logging": "/var/log"
