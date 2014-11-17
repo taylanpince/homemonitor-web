@@ -1,7 +1,12 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
     <title>Home Monitor</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -9,19 +14,40 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-</head>
-<body>
-    <h1>Home Monitor</h1>
     
-    {% for key, items in graphs.items() %}
-        <h2>{{ key }}</h2>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="#">Graphs</a></li>
+            <li role="presentation"><a href="#">About</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Home Monitor</h3>
+      </div>
+    
+      {% for key, items in graphs.items() %}
+          <h2>{{ key }}</h2>
         
-        <ol>
-        {% for item in items %}
-            <li>{{ item.reading }} / {{ item.date_created }}</li>
-        {% endfor %}
-        </ol>
-    {% endfor %}
-    
-</body>
+          <ol>
+          {% for item in items %}
+              <li>{{ item.reading }} / {{ item.date_created }}</li>
+          {% endfor %}
+          </ol>
+      {% endfor %}
+
+      <footer class="footer">
+        <p>&copy; Hipo 2014</p>
+      </footer>
+
+    </div>
+  </body>
 </html>
