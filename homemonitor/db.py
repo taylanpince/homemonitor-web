@@ -5,14 +5,18 @@ from boto.dynamodb2.types import NUMBER
 
 TABLE_NAME = "monitor_logs"
 
-ENTRY_TYPE_PRESSURE = "pressure"
-ENTRY_TYPE_UV = "uv"
+ENTRY_TYPE_HUMIDITY = "humidity"
 ENTRY_TYPE_TEMPERATURE = "temperature"
+ENTRY_TYPE_UV = "uv"
+ENTRY_TYPE_LUMINANCE = "luminance"
+ENTRY_TYPE_LOUDNESS = "loudness"
 
 ENTRY_TYPES = (
     (ENTRY_TYPE_TEMPERATURE, "Temperature"),
+    (ENTRY_TYPE_HUMIDITY, "Humidity"),
     (ENTRY_TYPE_UV, "UV"),
-    (ENTRY_TYPE_PRESSURE, "Pressure"),
+    (ENTRY_TYPE_LOUDNESS, "Loudness"),
+    (ENTRY_TYPE_LUMINANCE, "Luminance"),
 )
 
 
