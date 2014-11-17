@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="http://hipo.homemonitor.s3.amazonaws.com/jumbotron-narrow.css">
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
@@ -33,9 +34,10 @@
         </nav>
         <h3 class="text-muted">Home Monitor</h3>
       </div>
-    
+
+      <div class="row marketing">
       {% for key, items in graphs.items() %}
-          <h2>{{ key }}</h2>
+          <h3>{{ key }}</h3>
         
           <ol>
           {% for item in items %}
@@ -43,11 +45,15 @@
           {% endfor %}
           </ol>
       {% endfor %}
+      </div>
 
       <footer class="footer">
         <p>&copy; Hipo 2014</p>
       </footer>
 
     </div>
+    
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>

@@ -20,6 +20,9 @@ run ln -s /src/conf/supervisor.conf /etc/supervisor/conf.d/homemonitor.conf
 # Add and install Python modules
 RUN pip install -r /src/conf/requirements.pip
 
+# Sync S3
+RUN python /src/bin/sync_media.py
+
 # Expose
 EXPOSE 80
 
