@@ -13,8 +13,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="http://hipo.homemonitor.s3.amazonaws.com/jumbotron-narrow.css">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://hipo.homemonitor.s3.amazonaws.com/Chart.min.js"></script>
     
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -37,13 +38,42 @@
 
       <div class="row marketing">
       {% for key, items in graphs.items() %}
-          <h3>{{ key }}</h3>
+        <h3>{{ key }}</h3>
         
-          <ol>
-          {% for item in items %}
-              <li>{{ item.reading }} / {{ item.date_created }}</li>
-          {% endfor %}
-          </ol>
+        <canvas id="chart_{{ key }}" width="700" height="400"></canvas>
+        
+        <script type="text/javascript">
+          var data_{{ key }} = {
+            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [
+              {
+                label: "{{ key }}",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: [
+                  {% for item in items %}
+                  {{ item.reading }},
+                  {% endfor %}
+                ]
+              }
+            ]
+          };
+        
+          var ctx_{{ key }} = document.getElementById("chart_{{ key }}").getContext("2d");
+          var chart_{{ key }} = new Chart(ctx_{{ key }}).Line(data_{{ key }}, {
+            
+          });
+        </script>
+        
+        <ol>
+        {% for item in items %}
+            <li>{{ item.reading }} / {{ item.date_created }}</li>
+        {% endfor %}
+        </ol>
       {% endfor %}
       </div>
 

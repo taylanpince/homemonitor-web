@@ -33,7 +33,8 @@ def home():
     for entry_type in dict(ENTRY_TYPES).keys():
         graphs[entry_type] = app.db.table.query(
             entry_type__eq=entry_type,
-            limit=100
+            limit=100,
+            reverse=True
         )
 
     return render_template("home.html", 
