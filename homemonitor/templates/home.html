@@ -56,7 +56,9 @@
                 pointHighlightStroke: "rgba(220,220,220,1)",
                 data: [
                   {% for item in items %}
+                  {% if item.reading != None %}
                   {{ item.reading }},
+                  {% endif %}
                   {% endfor %}
                 ]
               }
