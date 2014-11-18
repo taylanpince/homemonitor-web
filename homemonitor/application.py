@@ -4,7 +4,7 @@ from boto import dynamodb2
 from flask import Flask, render_template, request, Response
 from time import time
 
-from db import DatabaseManager, ENTRY_TYPES
+from db import DatabaseManager, ENTRY_TYPES, Reading
 
 
 AWS_REGION = "us-east-1"
@@ -31,11 +31,11 @@ def home():
     graphs = {}
 
     for entry_type in dict(ENTRY_TYPES).keys():
-        graphs[entry_type] = app.db.table.query(
+        graphs[entry_type] = [Reading(i) for i in app.db.table.query(
             entry_type__eq=entry_type,
             limit=100,
             reverse=True
-        )
+        )]
 
     return render_template("home.html", 
         graphs=graphs,

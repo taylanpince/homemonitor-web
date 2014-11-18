@@ -1,3 +1,5 @@
+import time
+
 from boto.dynamodb2.fields import HashKey, RangeKey, AllIndex
 from boto.dynamodb2.table import Table
 from boto.dynamodb2.types import NUMBER
@@ -43,3 +45,16 @@ class DatabaseManager(object):
                     RangeKey("date_created", data_type=NUMBER)
                 ])
             ], connection=self.connection)
+
+
+class Reading(object):
+    """
+    A model for handling reading entries
+    """
+    def __init__(self, db_reading):
+        super(Reading, self).__init__()
+
+        self.entry_type = db_reading.get("entry_type")
+        self.timestamp = db_reading.get("date_created")
+        self.reading = db_reading.get("reading")
+        self.date_created = time.strftime("%H:%M:%S", time.localtime(self.timestamp))

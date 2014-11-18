@@ -16,6 +16,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="http://hipo.homemonitor.s3.amazonaws.com/Chart.min.js"></script>
+    <script type="text/javascript">
+      Chart.defaults.global.responsive = true;
+    </script>
     
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -44,7 +47,7 @@
         
         <script type="text/javascript">
           var data_{{ key }} = {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            labels: [{% for item in items %}{% if item.reading != None %}"{{ item.date_created }}",{% endif %}{% endfor %}],
             datasets: [
               {
                 label: "{{ key }}",
@@ -54,28 +57,16 @@
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "rgba(220,220,220,1)",
-                data: [
-                  {% for item in items %}
-                  {% if item.reading != None %}
-                  {{ item.reading }},
-                  {% endif %}
-                  {% endfor %}
-                ]
+                data: [{% for item in items %}{% if item.reading != None %}{{ item.reading }},{% endif %}{% endfor %}]
               }
             ]
           };
         
           var ctx_{{ key }} = document.getElementById("chart_{{ key }}").getContext("2d");
           var chart_{{ key }} = new Chart(ctx_{{ key }}).Line(data_{{ key }}, {
-            
+            showXLabels: 10
           });
         </script>
-        
-        <ol>
-        {% for item in items %}
-            <li>{{ item.reading }} / {{ item.date_created }}</li>
-        {% endfor %}
-        </ol>
       {% endfor %}
       </div>
 
