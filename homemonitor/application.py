@@ -4,11 +4,7 @@ from boto import dynamodb2
 from flask import Flask, render_template, request, Response
 from time import time
 
-from db import DatabaseManager, ENTRY_TYPES, Reading
-
-
-AWS_REGION = "us-east-1"
-TABLE_NAME = "monitor_logs"
+from db import DatabaseManager, ENTRY_TYPES, Reading, AWS_REGION
 
 
 app = Flask(__name__)
@@ -28,14 +24,23 @@ def setup_logging():
 
 @app.route("/")
 def home():
-    graphs = {}
+    graphs = []
 
-    for entry_type in dict(ENTRY_TYPES).keys():
-        graphs[entry_type] = [Reading(i) for i in app.db.table.query(
+    for entry_type, title in dict(ENTRY_TYPES).items():
+        entries = [Reading(i) for i in app.db.table.query_2(
             entry_type__eq=entry_type,
-            limit=100,
-            reverse=True
+            index="DateJoinedIndex",
+            reverse=True,
+            limit=100
         )]
+
+        entries.reverse()
+
+        graphs.append({
+            "entries": entries,
+            "key": entry_type,
+            "title": title,
+        })
 
     return render_template("home.html", 
         graphs=graphs,

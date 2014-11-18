@@ -40,30 +40,30 @@
       </div>
 
       <div class="row marketing">
-      {% for key, items in graphs.items() %}
-        <h3>{{ key }}</h3>
+      {% for graph in graphs %}
+        <h3>{{ graph.title }}</h3>
         
-        <canvas id="chart_{{ key }}" width="700" height="400"></canvas>
+        <canvas id="chart_{{ graph.key }}" width="700" height="400"></canvas>
         
         <script type="text/javascript">
-          var data_{{ key }} = {
-            labels: [{% for item in items %}{% if item.reading != None %}"{{ item.date_created }}",{% endif %}{% endfor %}],
+          var data_{{ graph.key }} = {
+            labels: [{% for item in graph.entries %}{% if item.is_valid() %}"{{ item.date_created }}",{% endif %}{% endfor %}],
             datasets: [
               {
-                label: "{{ key }}",
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
+                label: "{{ graph.key }}",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
-                data: [{% for item in items %}{% if item.reading != None %}{{ item.reading }},{% endif %}{% endfor %}]
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: [{% for item in graph.entries %}{% if item.is_valid() %}{{ item.reading }},{% endif %}{% endfor %}]
               }
             ]
           };
         
-          var ctx_{{ key }} = document.getElementById("chart_{{ key }}").getContext("2d");
-          var chart_{{ key }} = new Chart(ctx_{{ key }}).Line(data_{{ key }}, {
+          var ctx_{{ graph.key }} = document.getElementById("chart_{{ graph.key }}").getContext("2d");
+          var chart_{{ graph.key }} = new Chart(ctx_{{ graph.key }}).Line(data_{{ graph.key }}, {
             showXLabels: 10
           });
         </script>

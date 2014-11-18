@@ -1,11 +1,15 @@
+import datetime
 import time
+import pytz
 
 from boto.dynamodb2.fields import HashKey, RangeKey, AllIndex
 from boto.dynamodb2.table import Table
 from boto.dynamodb2.types import NUMBER
 
 
+AWS_REGION = "us-east-1"
 TABLE_NAME = "monitor_logs"
+LOCAL_TIMEZONE = pytz.timezone("EST")
 
 ENTRY_TYPE_HUMIDITY = "humidity"
 ENTRY_TYPE_TEMPERATURE = "temperature"
@@ -57,4 +61,29 @@ class Reading(object):
         self.entry_type = db_reading.get("entry_type")
         self.timestamp = db_reading.get("date_created")
         self.reading = db_reading.get("reading")
-        self.date_created = time.strftime("%H:%M:%S", time.localtime(self.timestamp))
+        
+        naive_date = datetime.datetime.fromtimestamp(self.timestamp)
+        utc_date = pytz.utc.localize(naive_date)
+        local_date = utc_date.astimezone(LOCAL_TIMEZONE)
+        
+        self.date_created = local_date.strftime("%b %d %H:%M:%S")
+
+    def is_valid(self):
+        """
+        Checks if the reading value is valid
+        """
+        if self.reading is None:
+            return False
+
+        if self.entry_type == ENTRY_TYPE_HUMIDITY:
+            return (float(self.reading) > 10)
+        elif self.entry_type == ENTRY_TYPE_LUMINANCE:
+            return (float(self.reading) > 0)
+        elif self.entry_type == ENTRY_TYPE_LOUDNESS:
+            return (float(self.reading) > 0)
+        elif self.entry_type == ENTRY_TYPE_UV:
+            return (float(self.reading) > 150)
+        elif self.entry_type == ENTRY_TYPE_TEMPERATURE:
+            return (float(self.reading) > -10)
+            
+        return True
