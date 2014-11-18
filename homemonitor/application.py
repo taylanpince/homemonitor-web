@@ -2,6 +2,7 @@ import logging
 
 from boto import dynamodb2
 from flask import Flask, render_template, request, Response
+from math import ceil
 from time import time
 
 from db import DatabaseManager, ENTRY_TYPES, Reading, AWS_REGION
@@ -27,14 +28,40 @@ def home():
     graphs = []
 
     for entry_type, title in dict(ENTRY_TYPES).items():
-        entries = [Reading(i) for i in app.db.table.query_2(
+        raw_entries = [Reading(i) for i in app.db.table.query_2(
             entry_type__eq=entry_type,
             index="DateJoinedIndex",
             reverse=True,
-            limit=100
-        )]
+            limit=1000
+        ) if Reading(i).is_valid()]
 
-        entries.reverse()
+        raw_entries.reverse()
+
+        entries = []
+        counter = 0
+        average = 0.0
+        loop = ceil(len(raw_entries) / 10)
+
+        for reading in raw_entries:
+            average += float(reading.reading)
+            counter += 1
+
+            if counter >= loop:
+                entries.append(Reading({
+                    "entry_type": entry_type,
+                    "date_created": reading.timestamp,
+                    "reading": (average / counter),
+                }))
+
+                counter = 0
+                average = 0
+
+        if counter > 0:
+            entries.append(Reading({
+                "entry_type": entry_type,
+                "date_created": reading.timestamp,
+                "reading": (average / counter),
+            }))
 
         graphs.append({
             "entries": entries,
