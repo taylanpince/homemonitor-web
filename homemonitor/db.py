@@ -66,7 +66,7 @@ class Reading(object):
         utc_date = pytz.utc.localize(naive_date)
         local_date = utc_date.astimezone(LOCAL_TIMEZONE)
         
-        self.date_created = local_date.strftime("%b %d %H:%M:%S")
+        self.date_created = local_date.strftime("%b %d %H:%M")
 
     def is_valid(self):
         """
