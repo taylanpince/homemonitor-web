@@ -56,8 +56,8 @@ class S3SyncClient(object):
                 s3_datetime = datetime.datetime(*time.strptime(s3_key.last_modified, '%a, %d %b %Y %H:%M:%S %Z')[0:6])
                 local_datetime = datetime.datetime.utcfromtimestamp(os.stat(file_path).st_mtime)
 
-                if local_datetime < s3_datetime:
-                    continue
+                # if local_datetime < s3_datetime:
+                #     continue
             else:
                 s3_key = bucket.new_key(file_key)
 

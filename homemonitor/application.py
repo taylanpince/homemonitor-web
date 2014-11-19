@@ -50,7 +50,7 @@ def home():
                 entries.append(Reading({
                     "entry_type": entry_type,
                     "date_created": reading.timestamp,
-                    "reading": (average / counter),
+                    "reading": round(average / counter, 1),
                 }))
 
                 counter = 0
@@ -60,7 +60,7 @@ def home():
             entries.append(Reading({
                 "entry_type": entry_type,
                 "date_created": reading.timestamp,
-                "reading": (average / counter),
+                "reading": round(average / counter, 1),
             }))
 
         graphs.append({

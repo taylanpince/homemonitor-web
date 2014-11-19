@@ -18,11 +18,11 @@ ENTRY_TYPE_LUMINANCE = "luminance"
 ENTRY_TYPE_LOUDNESS = "loudness"
 
 ENTRY_TYPES = (
-    (ENTRY_TYPE_TEMPERATURE, "Temperature (Celcius)"),
-    (ENTRY_TYPE_HUMIDITY, "Humidity (%)"),
     (ENTRY_TYPE_UV, "UV (mV)"),
-    (ENTRY_TYPE_LOUDNESS, "Loudness (dB)"),
     (ENTRY_TYPE_LUMINANCE, "Luminance (V)"),
+    (ENTRY_TYPE_LOUDNESS, "Loudness (dB)"),
+    (ENTRY_TYPE_HUMIDITY, "Humidity (%)"),
+    (ENTRY_TYPE_TEMPERATURE, "Temperature (Celcius)"),
 )
 
 
