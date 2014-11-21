@@ -84,6 +84,6 @@ class Reading(object):
         elif self.entry_type == ENTRY_TYPE_UV:
             return (float(self.reading) > 150)
         elif self.entry_type == ENTRY_TYPE_TEMPERATURE:
-            return (float(self.reading) > -10)
+            return (float(self.reading) > -10 and float(self.reading) < 50)
             
         return True
