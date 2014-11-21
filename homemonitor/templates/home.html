@@ -33,15 +33,33 @@
         <nav>
           <ul class="nav nav-pills pull-right">
             <li role="presentation" class="active"><a href="#">Graphs</a></li>
-            <li role="presentation"><a href="#">About</a></li>
           </ul>
         </nav>
         <h3 class="text-muted">Home Monitor</h3>
       </div>
+      
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="form-group">
+            <label for="timeSince">Since</label>
+            <select name="time-since" id="timeSince" class="form-control">
+              {% for key, value in time_options.items() %}
+              <option value="{{ key }}"{% if key == time_since %} selected{% endif %}>{{ value }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <script type="text/javascript">
+        $("#timeSince").change(function() {
+          window.location.href = "?time-since=" + $(this).val();
+        });
+      </script>
 
       <div class="row marketing">
       {% for graph in graphs %}
-        <h3>{{ graph.title }}</h3>
+        <h3 class="text-center">{{ graph.title }}</h3>
         
         <canvas id="chart_{{ graph.key }}" width="700" height="400"></canvas>
         
@@ -64,7 +82,7 @@
         
           var ctx_{{ graph.key }} = document.getElementById("chart_{{ graph.key }}").getContext("2d");
           var chart_{{ graph.key }} = new Chart(ctx_{{ graph.key }}).Line(data_{{ graph.key }}, {
-            showXLabels: 10
+            
           });
         </script>
       {% endfor %}

@@ -11,6 +11,19 @@ from db import DatabaseManager, ENTRY_TYPES, Reading, AWS_REGION
 app = Flask(__name__)
 
 
+TIME_FILTER_1_HOUR = 1
+
+TIME_FILTER_OPTIONS = (
+    (TIME_FILTER_1_HOUR, "1 hour ago"),
+    (6, "6 hours ago"),
+    (12, "12 hours ago"),
+    (24, "Yesterday"),
+    (48, "2 days ago"),
+    (72, "3 days ago"),
+    (120, "5 days ago"),
+)
+
+
 @app.before_first_request
 def setup_logging():
     if not app.debug:
@@ -25,14 +38,24 @@ def setup_logging():
 
 @app.route("/")
 def home():
+    try:
+        time_since = int(request.args.get("time-since", TIME_FILTER_1_HOUR))
+    except ValueError:
+        time_since = TIME_FILTER_1_HOUR
+
+    if not time_since in dict(TIME_FILTER_OPTIONS).keys():
+        time_since = TIME_FILTER_1_HOUR
+
+    time_start = int(time()) - (time_since * 60 * 60)
+
     graphs = []
 
     for entry_type, title in dict(ENTRY_TYPES).items():
         raw_entries = [Reading(i) for i in app.db.table.query_2(
             entry_type__eq=entry_type,
+            date_created__gte=time_start,
             index="DateJoinedIndex",
-            reverse=True,
-            limit=1000
+            reverse=True
         ) if Reading(i).is_valid()]
 
         raw_entries.reverse()
@@ -71,6 +94,8 @@ def home():
 
     return render_template("home.html", 
         graphs=graphs,
+        time_options=dict(TIME_FILTER_OPTIONS),
+        time_since=time_since,
     )
 
 
