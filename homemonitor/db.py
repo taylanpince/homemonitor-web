@@ -8,7 +8,7 @@ from boto.dynamodb2.types import NUMBER
 
 
 AWS_REGION = "us-east-1"
-TABLE_NAME = "monitor_logs"
+TABLE_NAME = "21_carlton"
 LOCAL_TIMEZONE = pytz.timezone("EST")
 
 ENTRY_TYPE_HUMIDITY = "humidity"
